@@ -1,0 +1,16 @@
+{
+    "services": [
+      { "title": "Web Development", "description": "Building responsive websites." },
+      { "title": "UI/UX Design", "description": "Crafting user-friendly designs." }
+    ],
+    "works": [
+      { "title": "Project 1", "description": "A cool project.", "link": "#" }
+    ],
+    "skills": [
+      { "name": "HTML", "level": 90 },
+      { "name": "React", "level": 85 }
+    ],
+    "testimonials": [
+      { "name": "Client 1", "review": "Great work!" }
+    ]
+  }
