@@ -1,8 +1,14 @@
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useForm } from '@inertiajs/react';
 import { Link } from '@inertiajs/react';
-import { motion } from 'framer-motion';
 
-const Footer = () => {
+const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
+    const [submitted, setSubmitted] = useState(false);
+    const { data, setData, post, processing, errors, reset } = useForm({
+        email: ''
+    });
 
     const socialLinks = [
         {
@@ -55,6 +61,19 @@ const Footer = () => {
         { name: 'Contact', href: '#contact' },
     ];
 
+    const handleNewsletterSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.stopPropagation(); // Prevent scroll reset
+        e.preventDefault();
+        post('/newsletter', {
+            onSuccess: () => {
+                reset();
+                setSubmitted(true);
+                setTimeout(() => setSubmitted(false), 3000);
+            },
+            preserveScroll: true // Keep scroll position
+        });
+    };
+
     return (
         <footer className="bg-white dark:bg-gray-800">
             <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -105,26 +124,48 @@ const Footer = () => {
                     <div>
                         <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-100">Stay Updated</h3>
                         <p className="mb-4 text-gray-600 dark:text-gray-300">Subscribe to my newsletter for the latest updates.</p>
-                        <form className="flex gap-2">
+                        <form 
+                            className="flex gap-2" 
+                            onSubmit={handleNewsletterSubmit}
+                        >
                             <input
                                 type="email"
+                                name="email"
+                                value={data.email}
+                                onChange={(e) => setData('email', e.target.value)}
                                 placeholder="Enter your email"
                                 className="focus:ring-opacity-20 flex-1 rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 transition-colors focus:border-purple-500 focus:ring-2 focus:ring-purple-500 dark:border-gray-700 dark:bg-gray-900"
+                                required
                             />
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 type="submit"
-                                className="rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors hover:bg-purple-700"
+                                disabled={processing}
+                                className="rounded-lg bg-purple-600 px-4 py-2 font-medium text-white transition-colors hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                Subscribe
+                                {processing ? 'Subscribing...' : 'Subscribe'}
                             </motion.button>
                         </form>
+                        {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+                        {/* Success Message */}
+                        <AnimatePresence>
+                            {submitted && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0 }}
+                                    className="mt-4 p-4 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-lg"
+                                >
+                                    Thank you for subscribing to my newsletter!
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
                 </div>
 
                 <div className="border-t border-gray-200 pt-8 dark:border-gray-700">
-                    <p className="text-center text-gray-600 dark:text-gray-300">© {currentYear} Umesh. All rights reserved.</p>
+                    <p className="text-center text-gray-600 dark:text-gray-300"> {currentYear} Umesh. All rights reserved.</p>
                 </div>
             </div>
         </footer>

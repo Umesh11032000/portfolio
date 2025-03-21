@@ -7,6 +7,7 @@ interface FormData {
     email: string;
     subject: string;
     message: string;
+    captcha: string;
 }
 
 const Contact: React.FC = () => {
@@ -15,16 +16,19 @@ const Contact: React.FC = () => {
         name: '',
         email: '',
         subject: '',
-        message: ''
+        message: '',
+        captcha: ''
     });
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        e.stopPropagation(); // Prevent scroll reset
         post('/contact', {
             onSuccess: () => {
                 setSubmitted(true);
                 reset();
-            }
+            },
+            preserveScroll: true // Keep scroll position
         });
     };
 
@@ -204,12 +208,30 @@ const Contact: React.FC = () => {
                                     id="message"
                                     value={data.message}
                                     onChange={e => setData('message', e.target.value)}
-                                    rows={6}
-                                    className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:ring-opacity-20 transition-colors resize-none"
+                                    rows={4}
+                                    className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:ring-opacity-20 transition-colors"
                                     required
                                 />
                                 {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
                             </div>
+                            <div className="mb-6">
+                                <label htmlFor="captcha" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Please enter the captcha
+                                </label>
+                                <div className="flex items-center gap-4">
+                                    <img src={route('captcha')} alt="Captcha" className="w-48 h-12 object-contain" />
+                                    <input
+                                        type="text"
+                                        id="captcha"
+                                        value={data.captcha}
+                                        onChange={e => setData('captcha', e.target.value)}
+                                        className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:ring-opacity-20 transition-colors"
+                                        required
+                                    />
+                                </div>
+                                {errors.captcha && <p className="mt-1 text-sm text-red-600">{errors.captcha}</p>}
+                            </div>
+
                             <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
@@ -217,7 +239,7 @@ const Contact: React.FC = () => {
                                 disabled={processing}
                                 className={`w-full px-6 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-blue-500 text-white font-medium ${
                                     processing ? 'opacity-75 cursor-not-allowed' : 'hover:shadow-lg'
-                                } transition-all`}
+                                } transition-colors`}
                             >
                                 {processing ? 'Sending...' : 'Send Message'}
                             </motion.button>
