@@ -135,7 +135,8 @@ const HeroSection = () => {
 
                     <motion.div 
                         variants={itemVariants}
-                        className="relative lg:order-2 order-1 flex justify-center lg:justify-end mt-8 lg:mt-0"
+                        className="relative lg:order-2 order-1 flex justify-center lg:justify-end mt-8 lg:mt-06"
+                        style={{marginTop: 'clamp(5rem, 10vw, 5rem)'}}
                     >
                         <div className="relative w-32 h-32 md:w-64 md:h-64 lg:w-[360px] lg:h-[360px]">
                             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-blue-500 animate-pulse blur-3xl opacity-30"></div>

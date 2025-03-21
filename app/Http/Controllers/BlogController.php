@@ -13,7 +13,6 @@ class BlogController extends Controller
 
     public function getMediumPosts()
     {
-        Cache::forget('medium_posts');
         return Cache::remember('medium_posts', self::CACHE_DURATION, function () {
             try {
                 $response = Http::get('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@umeshp113/');

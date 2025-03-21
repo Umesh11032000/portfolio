@@ -1,7 +1,5 @@
 @import 'tailwindcss';
 
-@import 'odometer/themes/odometer-theme-minimal.css';
-
 @plugin 'tailwindcss-animate';
 
 @source "../views";

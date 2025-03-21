@@ -86,7 +86,7 @@ const Blogs = () => {
                         variants={variants.item}
                         className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
                     >
-                        Insights and tutorials about web development and design
+                        Insights and tutorials about web development
                     </motion.p>
                 </motion.div>
 

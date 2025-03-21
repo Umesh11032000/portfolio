@@ -16,8 +16,8 @@ const Skills: React.FC = () => {
         {
             title: 'Frontend Development',
             skills: [
-                { name: 'React', level: 90 },
-                { name: 'JavaScript', level: 85 },
+                { name: 'React', level: 80 },
+                { name: 'JavaScript', level: 90 },
                 { name: 'TypeScript', level: 80 },
                 { name: 'Tailwind CSS', level: 95 },
                 { name: 'HTML/CSS', level: 90 }
@@ -26,7 +26,7 @@ const Skills: React.FC = () => {
         {
             title: 'Backend Development',
             skills: [
-                { name: 'Laravel', level: 85 },
+                { name: 'Laravel', level: 90 },
                 { name: 'PHP', level: 80 },
                 { name: 'Node.js', level: 75 },
                 { name: 'MySQL', level: 85 },
